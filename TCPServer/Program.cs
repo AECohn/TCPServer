@@ -4,20 +4,18 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-Console.WriteLine("Which port should the server be at?");
+Console.WriteLine("Set the server port");
 int port = int.Parse(Console.ReadLine());
-//create a TCP Server
+
 TcpListener server = new TcpListener(IPAddress.Any, port);
 server.Start();
-TcpClient client = server.AcceptTcpClient();
+
+TcpClient client = server.AcceptTcpClient(); //waits for a client to connect
 Console.WriteLine("Client connected");
 
 //print received messages to the console
 while (true)
 {
-    //wait for a client to connect
-
-
     //get the client's stream
     NetworkStream stream = client.GetStream();
 
@@ -33,10 +31,5 @@ while (true)
     stream.Write(data, 0, data.Length);
     Console.WriteLine("Sent: " + response);
 
-    /*
-    //close the connection
-    client.Close();
-    Console.WriteLine("Client disconnected");
-    */
 }
 
