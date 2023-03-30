@@ -8,6 +8,7 @@ int port = int.Parse(Console.ReadLine());
 TcpListener server = new TcpListener(IPAddress.Any, port);
 TcpClient client;
 
+
 try
 {
     server.Start();
@@ -21,8 +22,6 @@ catch (SocketException e)
     Console.ReadKey();
     return;
 }
-
-//check if server has started
 
 try
 {
@@ -38,8 +37,6 @@ catch (Exception e)
     return; //exit the program
 }
 
-
-//print received messages to the console
 while (true)
 {
     //get the client's stream
@@ -52,7 +49,7 @@ while (true)
     Console.WriteLine("Received: " + message);
 
     //send a response to the client
-    string response = "Hello from the server";
+    string response = $"Your message had {message.Length} characters";
     byte[] data = Encoding.UTF8.GetBytes(response);
     stream.Write(data, 0, data.Length);
     Console.WriteLine("Sent: " + response);
