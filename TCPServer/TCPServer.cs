@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -8,10 +6,38 @@ Console.WriteLine("Set the server port");
 int port = int.Parse(Console.ReadLine());
 
 TcpListener server = new TcpListener(IPAddress.Any, port);
-server.Start();
+TcpClient client;
 
-TcpClient client = server.AcceptTcpClient(); //waits for a client to connect
-Console.WriteLine("Client connected");
+try
+{
+    server.Start();
+    Console.WriteLine("Server started, awaiting connection");
+}
+catch (SocketException e)
+{
+    Console.WriteLine("SocketException: {0}", e);
+    server.Stop();
+    Console.WriteLine("Press any key to exit");
+    Console.ReadKey();
+    return;
+}
+
+//check if server has started
+
+try
+{
+    client = server.AcceptTcpClient(); //waits for a client to connect
+    Console.WriteLine("Client connected");
+}
+catch (Exception e)
+{
+    Console.WriteLine("Exception: {0}", e);
+    server.Stop();
+    Console.WriteLine("Press any key to exit");
+    Console.ReadKey();
+    return; //exit the program
+}
+
 
 //print received messages to the console
 while (true)
